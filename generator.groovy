@@ -68,6 +68,9 @@ Boolean twint
 @OptionField
 Boolean tweep
 
+@OptionField
+Integer edgeWeight
+
 @UnparsedField List ioOptions
 
 new CliBuilder().parseFromInstance(this, args)
@@ -211,6 +214,34 @@ while (!inputFiles.isEmpty()) {
 	}
     }
 }
+
+if (edgeWeight != null)
+    System.out.println("Removing edges with a weight less than or equal to " + edgeWeight);
+else
+    edgeWeight = 0;
+
+System.out.println(graph.getNodes().size()+"/"+graph.getAllEdges().size());
+
+for (Edge edge : graph.getAllEdges()) {
+    if (edge.getWeight() <= edgeWeight) {
+        Node source = edge.getSource();
+
+        source.getSpells().removeAll(edge.getSpells());
+        source.getEdges().remove(edge);
+    }
+}
+
+Set<Node> toKeep = new HashSet<Node>();
+for (Edge edge : graph.getAllEdges()) {
+    toKeep.add(edge.getSource());
+    toKeep.add(edge.getTarget());
+}
+
+System.out.println(toKeep.size());
+
+graph.getNodes().retainAll(toKeep);
+
+System.out.println(graph.getNodes().size()+"/"+graph.getAllEdges().size());
 
 if (trim) {
     System.out.println("Trimming to main group");
