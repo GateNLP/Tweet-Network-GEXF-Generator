@@ -14,6 +14,7 @@ where options are
 --retweets: includes retweets within the graph
  --replies: includes replies within the graph
 --mentions: includes mentions within the graph
+    --trim: trim the graph to only keep the biggest connected network
    --twint: assumes the data is in Twint format not native Twitter style
    --tweep: assumes the data is in Tweep format not native Twitter style
 ```
