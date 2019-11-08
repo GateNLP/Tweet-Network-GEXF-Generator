@@ -14,10 +14,13 @@ where options are
     --retweets: includes retweets within the graph
      --replies: includes replies within the graph
     --mentions: includes mentions within the graph
+
+--edgeWeight n: removes any edges with a weight less than or equal to n
         --trim: trim the graph to only keep the biggest connected network
+
        --twint: assumes the data is in Twint format not native Twitter style
        --tweep: assumes the data is in Tweep format not native Twitter style
---edgeWeight n: removes any edges with a weight less than or equal to n
+
 ```
 
 if no options are provided then rather than producing an empty graph, it is
