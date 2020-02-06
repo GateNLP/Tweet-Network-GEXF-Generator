@@ -1,6 +1,6 @@
 # Tweet Network GEXF Generator
 
-To generate a GEXF network graph use the following command
+To convert tweets stored in JSON files to a GEXF network graph use the following command
 
 ```
 groovy generate.groovy [options] <input files> <output file>
@@ -18,8 +18,8 @@ where options are
 --edgeWeight n: removes any edges with a weight less than or equal to n
         --trim: trim the graph to only keep the biggest connected network
 
-       --twint: assumes the data is in Twint format not native Twitter style
-       --tweep: assumes the data is in Tweep format not native Twitter style
+       --twint: the data is in Twint JSON format not native Twitter style
+       --tweep: the data is in Tweep JSON format not native Twitter style
 
 ```
 
@@ -27,7 +27,7 @@ if no options are provided then rather than producing an empty graph, it is
 assumed that the user wants retweets, replies, and mentions.
 
 Any number of input files or dirctories can be provided to the script and these
-will be recursed to find all *.gz files which it assumes contains Tweets in
+will be recursed to find all \*.gz files which it assumes contains Tweets in
 JSON format, one tweet per line. This is the format in which Tweets are made
 available for download from GATE Cloud.
 
