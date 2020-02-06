@@ -3,7 +3,7 @@
 To generate a GEXF network graph use the following command
 
 ```
-groovy export.groovy [options] <input files> <output file>
+groovy generate.groovy [options] <input files> <output file>
 ```
 
 Note that you need Groovy 2.5 or above for the script to work correctly
