@@ -71,6 +71,9 @@ Boolean tweep
 @OptionField
 Integer edgeWeight
 
+@OptionField
+Boolean flow
+
 @UnparsedField List ioOptions
 
 new CliBuilder().parseFromInstance(this, args)
@@ -215,36 +218,34 @@ while (!inputFiles.isEmpty()) {
     }
 }
 
-if (edgeWeight != null)
-    System.out.println("Removing edges with a weight less than or equal to " + edgeWeight);
-else
-    edgeWeight = 0;
+System.out.println("\nFull graph consists of " + graph.getNodes().size() + " nodes and "+graph.getAllEdges().size() + " edges");
 
-System.out.println(graph.getNodes().size()+"/"+graph.getAllEdges().size());
+if (edgeWeight != null) {
+    System.out.println("\nRemoving edges with a weight less than or equal to " + edgeWeight+"...");
 
-for (Edge edge : graph.getAllEdges()) {
-    if (edge.getWeight() <= edgeWeight) {
-        Node source = edge.getSource();
 
-        source.getSpells().removeAll(edge.getSpells());
-        source.getEdges().remove(edge);
-    }
+	for (Edge edge : graph.getAllEdges()) {
+	    if (edge.getWeight() <= edgeWeight) {
+		Node source = edge.getSource();
+
+		source.getSpells().removeAll(edge.getSpells());
+		source.getEdges().remove(edge);
+	    }
+	}
+
+	Set<Node> toKeep = new HashSet<Node>();
+	for (Edge edge : graph.getAllEdges()) {
+	    toKeep.add(edge.getSource());
+	    toKeep.add(edge.getTarget());
+	}
+
+	graph.getNodes().retainAll(toKeep);
+
+	System.out.println("Graph now consists of " + graph.getNodes().size() + " nodes and "+graph.getAllEdges().size() + " edges");
 }
-
-Set<Node> toKeep = new HashSet<Node>();
-for (Edge edge : graph.getAllEdges()) {
-    toKeep.add(edge.getSource());
-    toKeep.add(edge.getTarget());
-}
-
-System.out.println(toKeep.size());
-
-graph.getNodes().retainAll(toKeep);
-
-System.out.println(graph.getNodes().size()+"/"+graph.getAllEdges().size());
 
 if (trim) {
-    System.out.println("Trimming to main group");
+    System.out.println("\nRemoving all but largest connected group...");
     List<Set<Node>> clusters = new ArrayList<Set<Node>>();
     Set<Node> seenNodes = new HashSet<Node>();
 
@@ -280,8 +281,6 @@ if (trim) {
         }
     }
 
-    System.out.println(mainCluster.size());
-
     graph.getNodes().retainAll(mainCluster);
 
     for (Node node : mainCluster) {
@@ -293,6 +292,8 @@ if (trim) {
             }
         }
     }
+
+    System.out.println("Graph now consists of " + graph.getNodes().size() + " nodes and "+graph.getAllEdges().size() + " edges");
 }
 
 StaxGraphWriter graphWriter = new StaxGraphWriter();
@@ -300,7 +301,7 @@ StaxGraphWriter graphWriter = new StaxGraphWriter();
 try {
     Writer out = new FileWriter(outputFile, false);
     graphWriter.writeToStream(gexf, out, "UTF-8");
-    System.out.println(outputFile.getAbsolutePath());
+    System.out.println("\nWriting graph to " + outputFile.getAbsolutePath());
 } catch (IOException e) {
     e.printStackTrace();
 }
