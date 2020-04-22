@@ -1,0 +1,4 @@
+test/**
+out/**
+.idea
+Tweet-Network-GEXF-Generator.iml
