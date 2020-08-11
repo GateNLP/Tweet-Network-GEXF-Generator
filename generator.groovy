@@ -360,7 +360,8 @@ private void convertFromTwint(ObjectMapper mapper, ObjectNode tweet) {
 		//this is a reply now we just need to figure out what the handle is
 		String handle = tweetText.split("[^@_0-9a-zA-Z]")[0];
 
-		tweet.put("in_reply_to_screen_name",handle.substring(1));
+		if (handle.length() > 1)
+			tweet.put("in_reply_to_screen_name",handle.substring(1));
 	}
 
 	tweet.put("text", tweetText);
@@ -439,7 +440,8 @@ ack Brexiteers\n🇬🇧🇺🇸🇮🇱 #MBGA #MAGA",
 		//this is a reply now we just need to figure out what the handle is
 		String handle = tweetText.split("[^@_0-9a-zA-Z]")[0];
 
-		tweet.put("in_reply_to_screen_name",handle.substring(1));
+		if (handle.length() > 1)
+			tweet.put("in_reply_to_screen_name",handle.substring(1));
 	}
 
 	tweet.put("text", tweetText);
